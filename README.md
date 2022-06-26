@@ -6,7 +6,7 @@
 ### Parts
 - Data from songs (**lyrics**, Language, Song type)
   - Where? (https://www.azlyrics.com/, 
-  - 1 - 1 song by searching (https://www.azlyrics.com/lyrics/josgonzlez/stepout.html)
+  - 1 - 1 song by searching (https://www.azlyrics.com/lyrics/josgonzlez/stepout.html / )
   - 2 - 2 songs by scrapping (create priorities with 2 songs)
   - 3 - 2 languages
 - Word frequency (Python? Possible with Ruby)
