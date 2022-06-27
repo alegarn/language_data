@@ -23,3 +23,7 @@
   - With PostGreSQL (but after every csv first tsts)
   - Rails
 
+
+# the steps
+- text parser (1 song) in csv
+- dictionnary (([wikipedia](https://en.wiktionary.org/wiki/Wiktionary:Frequency_lists)), 100 words first (some data scrapping)
