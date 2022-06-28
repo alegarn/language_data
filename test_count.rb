@@ -39,19 +39,19 @@ def lyrics_parser(file_name)
   end
 
   #hash trié
-  puts count.length
   count = count.sort_by{ |k,v| -v}#.to_h
-  print count
+
   #columns = count.transpose
   lines = count.length
-  print lines
   l = 0
 
   CSV.open("lyrics_per_voc_score.csv", "w") do |row|
-    while l <= lines
-      row << [count[l][0], count[l][1].to_s]
+    row << ["ID","WORD","FOUND"]
+    while l <= lines - 1
+      row << ["#{l+1}",count[l][0], count[l][1].to_s]
       l = l + 1
     end
+
   end
   # https://stackoverflow.com/questions/8183706/how-to-save-a-hash-into-a-csv
   # hash to csv
