@@ -36,5 +36,18 @@ end
 
 word_songs = [id, word, total_found]
 
-print word_dict_freq
-print word_songs
+
+i = 1
+words = []
+# comparer les mots à apprendre (soit les 10 premiers en anglais), se trouvant dans les paroles
+while i < 5
+  word_dict_freq.each do |row|
+   print row[i]
+    if word_songs[i][1] == row[i][1]
+      words << [word_songs[i][1], word_songs[i][2]]
+      puts words
+    end
+  end
+  i = i + 1
+end
+puts words

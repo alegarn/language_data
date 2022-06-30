@@ -23,7 +23,19 @@
   - With PostGreSQL (but after every csv first tsts)
   - Rails
 
+- Best score?
+ - if the words were chosen
+	- take the song with best “most times of this word” said in the song
+	- more than 1 word?
+ - by frequency 
+	- song with the most basics words (if the word is high rank, top 100 = 1 point, top 200 = 2…, the song best score is 0 (points reduced = super high frequency) 
+ - each song has a top “repeated words” (when having 5 times at least in the song)
+
 
 # the steps
 - text parser (1 song) in csv
 - dictionnary (([wikipedia](https://en.wiktionary.org/wiki/Wiktionary:Frequency_lists)), 100 words first (some data scrapping)
+- 
+
+
+

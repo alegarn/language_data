@@ -24,7 +24,7 @@ def lyrics_parser(file_name)
       i = i + 1
     end
 
-    # chercher dans les lignes
+    # chercher dans les lignes, détermine la note des paroles pour une recherche ("the = 9" la personne qui veut l'apprendre donne son score de 9 pour cette musique)
     c = 0
     words.map { |parse|
       # existe ou pas dans le hash? non, ajouter, mettre sa valeur à 1
@@ -40,6 +40,16 @@ def lyrics_parser(file_name)
 
   #hash trié
   count = count.sort_by{ |k,v| -v}#.to_h
+  #quand les paroles ont répété (le minimum) plusieurs (> 5) fois certains mots, elles deviennent efficace pour pouvoir apprendre ces nouveaux mots
+  puts "'Song title' is great to learn:"
+  count.each do |p|
+    if p[1] >= 5
+      puts "- #{p[0]}: #{p[1]} times"
+    end
+  end
+  - #{count[0][0]}: found: #{count[0][1]}
+  - #{count[1][0]}: found: #{count[1][1]}
+  - #{count[2][0]}: found: #{count[2][1]}"
 
   #columns = count.transpose
   lines = count.length
