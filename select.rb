@@ -21,7 +21,6 @@ id = []
 total_found = []
 word = []
 
-
 n = 0
 
 CSV.open("lyrics_per_voc_score.csv", "r") do |row|
@@ -37,17 +36,31 @@ end
 word_songs = [id, word, total_found]
 
 
+def lyrics()
+
+end
+
+p = 0
 i = 1
 words = []
 # comparer les mots à apprendre (soit les 10 premiers en anglais), se trouvant dans les paroles
-while i < 5
-  word_dict_freq.each do |row|
-   print row[i]
-    if word_songs[i][1] == row[i][1]
-      words << [word_songs[i][1], word_songs[i][2]]
-      puts words
+
+
+word_dict_freq.map do |row|
+  row.map do |compare|
+    i = 1
+    while i < 9
+      if word_songs[1][i] == compare
+        words << [word_songs[1][i], word_songs[2][i]]
+      end
+      i = i + 1
     end
   end
-  i = i + 1
 end
-puts words
+
+score = 0
+words.each do |number|
+ score = score + number[1].to_i
+end
+
+print "#{words}: score de #{score} (english top 100) "
