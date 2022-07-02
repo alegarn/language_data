@@ -37,3 +37,4 @@
 - dictionary (([wikipedia](https://en.wiktionary.org/wiki/Wiktionary:Frequency_lists)), 100 words first (some data scrapping)
 - find repeating words in a song
 - **the song score: a number of times the word searched are repeated in the song
+(compare 2 songs and code for every type of song file, pass name datas from test_count.rb through select.rb, finish song scrapper)

@@ -55,7 +55,7 @@ def lyrics_parser(file_name)
   lines = count.length
   l = 0
 
-  CSV.open("lyrics_per_voc_score.csv", "w") do |row|
+  CSV.open("#{file_name}_lyrics_per_voc_score.csv", "w") do |row|
     row << ["ID","WORD","FOUND"]
     while l <= lines - 1
       row << ["#{l+1}",count[l][0], count[l][1].to_s]
