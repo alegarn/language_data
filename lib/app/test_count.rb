@@ -1,8 +1,8 @@
 require 'csv'
 require 'rubygems'
 
-require_relative 'frequency_scrapper'
-require_relative 'select'
+#require_relative 'frequency_scrapper'
+#require_relative 'select'
 
 
 def lyrics_parser(file_name)

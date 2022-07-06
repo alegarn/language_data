@@ -1,16 +1,30 @@
 require 'rubygems'
 require "csv"
+require 'fileutils'
 
-require_relative 'frequency_scrapper'
-require_relative 'test_count'
+#require_relative 'frequency_scrapper'
+#require_relative 'test_count'
+
+def file_parser
+  #choper des fichiers
+  #dossier paroles
+  Dir.chdir("./db/all_songs/")
+  puts Dir.pwd
+  puts Dir.children(Dir.pwd)
+  # bon dossier, ensuite bon fichier (le bon path pour le dossier, en ayant aussi le nom du fichier txt)
+
+end
 
 def selected_voc(file_name)
+  #travail à partir de /db/all_songs/
+  Dir.chdir("../../db/words/")
+  puts Dir.pwd + "selected"
   rank = []
   word = []
 
   n = 0
 
-  CSV.open("./db/words/#{file_name}.csv", "r") do |row|
+  CSV.open("#{file_name}.csv", "r") do |row|
     row = row.to_a
     while n < 100
       rank << row[n][0]
@@ -25,12 +39,15 @@ end
 
 
 def lyrics
+  file_parser
   word_songs = []
   l = 0
-  while l == 0
+  while l < 3
     print "what is the song name? (to quit: 0)"
     puts ">"
-    song_name = gets.chomp
+    puts Dir.pwd
+    Dir.children(Dir.pwd)[l]
+    song_name = "#{Dir.children(Dir.pwd)[l]}" #gets.chomp
     if song_name == "0"
       break
     end
@@ -41,7 +58,7 @@ def lyrics
 
     n = 0
 
-    CSV.open("./db/all_songs/#{song_name}.txt_lyrics_per_voc_score.csv", "r") do |row|
+    CSV.open("#{song_name}/#{song_name}.txt_lyrics_per_voc_score.csv", "r") do |row|
       row = row.to_a
       while n < 54
         id << row[n][0]
@@ -49,6 +66,7 @@ def lyrics
         total_found << row[n][2]
         n = n + 1
       end
+      l = l + 1
     end
     word_songs << [id,song_name, word, total_found]
   end
@@ -88,10 +106,11 @@ end
 
 
 def perform
+  #file_parser
+
   print "write a file name '...'.csv (the words who are needed)?"
   puts ">"
   file_name_selected = gets.chomp
-
   compare(lyrics,selected_voc(file_name_selected))
 
 end
