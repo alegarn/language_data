@@ -6,8 +6,7 @@ require 'rubygems'
 
 
 def lyrics_parser(file_name)
-
-  parser = File.open("./db/all_songs/#{file_name}.txt", "r")
+  parser = File.open("#{file_name}/#{file_name}.txt", "r")
   count = Hash.new #hash
 
   end_text = parser.each do |line|
@@ -58,7 +57,7 @@ def lyrics_parser(file_name)
   lines = count.length
   l = 0
 
-  CSV.open("./db/all_songs/#{file_name}.txt_lyrics_per_voc_score.csv", "w") do |row|
+  CSV.open("#{file_name}/#{file_name}.txt_lyrics_per_voc_score.csv", "w") do |row|
     row << ["ID","WORD","FOUND"]
     while l <= lines - 1
       row << ["#{l+1}",count[l][0], count[l][1].to_s]
@@ -72,11 +71,33 @@ def lyrics_parser(file_name)
   return count
 end
 
+def count_files
+  Dir.chdir("./db/all_songs/")
+  files = Dir.children(Dir.pwd)
+  return files
+end
+
+def file_parser(i, files)
+  song_name = "#{files[i]}"
+  return song_name
+end
+
+
+
 def perform
   print "file name? (txt)"
   puts ">"
-  file_name = gets.chomp
-  lyrics_parser(file_name)
+
+  files = count_files
+  l = files.length
+  i = 0
+
+  while i < l
+    file_name = file_parser(i, files)
+    lyrics_parser(file_name)
+    i = i + 1
+  end
+
 
 end
 
