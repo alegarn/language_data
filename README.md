@@ -1,25 +1,41 @@
 ﻿# language_data
 
-### Stack
+
+### Why?
+
+When you want to learn a new language listening to popular songs seems to works fine for some. New words, go to your memory, repeated many times during your listening. People that really like the songs enjoy the process, so are more likely to repeat it, and having the words easier in memory when you compare to cramming.
+
+Choosing the right song is not always simple (you can like it or not, the vocabulary is not adapted). With this program you can (almost yet, that is the first version) choose some songs based on the vocabulary you want (this version contains: top 100 frequent english words).
+
+ 
+### Version
+
+- Pre-alpha (anti)features:
+	- it scraps (gem: Nokogiri) lyrics from a1 band only
+	- it’s (almost) not possible to choose your own vocabulary to learn (look at db/words/words.csv when you are motivated, then in lib/app/select.rb)
+	- it’s console only
+	- you need to have Nordvpn
+	- still some comments in the code
+	- no database (just text files)
+	- there is no C Ruby gem
+	- It’s really first stage <3
+
+### Requirement
+
+- Ruby: https://www.ruby-lang.org/en/documentation/installation/
+
+- Bundler: 
+
+```
+gem install bundler 
+```
+
+### How to install
+
+Run `bundle install` (choose your favorite terminal to do so) in the project’s root document.
 
 
-### Parts
-- Data from songs (**lyrics**, Language, Song type)
-  - Where? (https://www.azlyrics.com/, 
-  - 1 - 1 song by searching (https://www.azlyrics.com/lyrics/josgonzlez/stepout.html)
-  - 2 - 2 songs by scrapping (create priorities with 2 songs)
-  - 3 - 2 languages
-- Word frequency (Python? Possible with Ruby)
-  - For a song (simple frequency sort
-- List: each word we want to learn
-  - In the song
-  
-- Data: take the frequency dictionnary
-  - Where? ([wikipedia](https://en.wiktionary.org/wiki/Wiktionary:Frequency_lists) 
-  - 100 words first (Nokogiri scrapping (in Python Jupyter → bs4, final csv,!)
-  - language: english
-  - More with https://developer.musixmatch.com/ / https://lyricsovh.docs.apiary.io/)
-- App Web (UI / Database)
-  - With PostGreSQL (but after every csv first tsts)
-  - Rails
+### How it Works
+
+Run `ruby app.rb` (Internet connection required to scrap)
 
