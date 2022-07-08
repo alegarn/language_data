@@ -2,10 +2,14 @@ class ChoosingSongsToLearn
 
   def initialize
     #file_parser
-    print "write a file name '...'.csv (the words who are needed)?
-    Without change in the file, you can type: words
+    puts "write a file name '...'.csv (the words who are needed)?
+    __________________________________________________________________
+    Without change in the file, you can type: 'words'
+
     words.txt: top 101 for the most frequent english words, you can find it there: db/words/words.csv
-    When you change it, think to change method: csv_voc_selected, variable: n"
+
+    When you change it, think to change method: csv_voc_selected, variable: n
+    __________________________________________________________________"
     puts ">"
     file_name_selected = gets.chomp
 
@@ -13,12 +17,15 @@ class ChoosingSongsToLearn
     l = files.length
 
     results = compare(songs_lyrics(files,l),selected_voc(file_name_selected))
+
     sort_lyrics_scores(results)
   end
 
   def count_files
-    #Dir.chdir("./db/all_songs/")
+    Dir.chdir("./db/all_songs/")
     files = Dir.children(Dir.pwd)
+    Dir.chdir("../../")
+    puts Dir.pwd
     return files
   end
 
@@ -93,7 +100,7 @@ class ChoosingSongsToLearn
     word = []
     n = 0
 
-    CSV.open("#{song_name}/#{song_name}.txt_lyrics_per_voc_score.csv", "r") do |row|
+    CSV.open("./db/all_songs/#{song_name}/#{song_name}.txt_lyrics_per_voc_score.csv", "r") do |row|
       row = row.to_a
       while n < row.length
         id << row[n][0]
@@ -109,9 +116,7 @@ class ChoosingSongsToLearn
 
 
   def selected_voc(file_name)
-    #travail à partir de /db/all_songs/
-    Dir.chdir("../../db/words/")
-    puts Dir.pwd + " selected"
+
     rank = []
     word = []
 
@@ -125,14 +130,16 @@ class ChoosingSongsToLearn
   def csv_voc_selected(file_name, rank, word)
     n = 0
 
-    CSV.open("#{file_name}.csv", "r") do |row|
+    CSV.open("./db/words/#{file_name}.csv", "r") do |row|
       row = row.to_a
-      while n < 100
+      c = (row.length)
+      while n < c
         rank << row[n][0]
         word << row[n][1]
         n = n + 1
       end
     end
+
 
     return [rank, word]
   end
@@ -153,13 +160,23 @@ class ChoosingSongsToLearn
     print "Les 5 premières (plus de vocabulaire):
     "
     show(highest_total_words_number)
-
+    s = 0
+    while s == 0
+      puts "Exit? write 'y'"
+      quit = gets.chomp
+      if quit == "y"
+        s = 1
+      end
+    end
   end
 
   def show(list)
     o = 0
     list.map { |e|
+      
+      e[2] == 0 ? (break) : ()
       o = o + 1
+
       puts "En place #{o}:
       - #{e[0]} (#{e[2]} points)
       - #{e[1]}
