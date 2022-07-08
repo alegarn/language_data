@@ -1,4 +1,4 @@
-class ChoosingSongs
+class ChoosingSongsToLearn
 
   def initialize
     #file_parser
