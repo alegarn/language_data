@@ -7,14 +7,13 @@ When you want to learn a new language listening to popular songs seems to works 
 
 Choosing the right song is not always simple (you can like it or not, the vocabulary is not adapted). With this program you can (almost yet, that is the first version) choose some songs based on the vocabulary you want (this version contains: top 100 frequent english words).
 
- 
+
 ### Version
 
 - Pre-alpha (anti)features:
 	- it scraps (gem: Nokogiri) lyrics from a1 band only
-	- it’s (almost) not possible to choose your own vocabulary to learn (look at db/words/words.csv when you are motivated, then in lib/app/select.rb)
 	- it’s console only
-	- you need to have Nordvpn
+	- you need to have Nordvpn (you can change the code if you want)
 	- still some comments in the code
 	- no database (just text files)
 	- there is no C Ruby gem
@@ -24,10 +23,10 @@ Choosing the right song is not always simple (you can like it or not, the vocabu
 
 - Ruby: https://www.ruby-lang.org/en/documentation/installation/
 
-- Bundler: 
+- Bundler:
 
 ```
-gem install bundler 
+gem install bundler
 ```
 
 ### How to install
@@ -38,4 +37,3 @@ Run `bundle install` (choose your favorite terminal to do so) in the project’s
 ### How it Works
 
 Run `ruby app.rb` (Internet connection required to scrap)
-

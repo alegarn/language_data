@@ -22,9 +22,10 @@ class ChoosingSongsToLearn
   end
 
   def count_files
-    #you can unactivate if just key '4'
     Dir.chdir("./db/all_songs/")
     files = Dir.children(Dir.pwd)
+    Dir.chdir("../../")
+    puts Dir.pwd
     return files
   end
 
@@ -99,7 +100,7 @@ class ChoosingSongsToLearn
     word = []
     n = 0
 
-    CSV.open("#{song_name}/#{song_name}.txt_lyrics_per_voc_score.csv", "r") do |row|
+    CSV.open("./db/all_songs/#{song_name}/#{song_name}.txt_lyrics_per_voc_score.csv", "r") do |row|
       row = row.to_a
       while n < row.length
         id << row[n][0]
@@ -115,9 +116,7 @@ class ChoosingSongsToLearn
 
 
   def selected_voc(file_name)
-    #travail à partir de /db/all_songs/
-    Dir.chdir("../../db/words/")
-    puts Dir.pwd + " selected"
+
     rank = []
     word = []
 
@@ -131,14 +130,16 @@ class ChoosingSongsToLearn
   def csv_voc_selected(file_name, rank, word)
     n = 0
 
-    CSV.open("#{file_name}.csv", "r") do |row|
+    CSV.open("./db/words/#{file_name}.csv", "r") do |row|
       row = row.to_a
-      while n < 100
+      c = (row.length)
+      while n < c
         rank << row[n][0]
         word << row[n][1]
         n = n + 1
       end
     end
+
 
     return [rank, word]
   end
@@ -172,7 +173,10 @@ class ChoosingSongsToLearn
   def show(list)
     o = 0
     list.map { |e|
+      
+      e[2] == 0 ? (break) : ()
       o = o + 1
+
       puts "En place #{o}:
       - #{e[0]} (#{e[2]} points)
       - #{e[1]}

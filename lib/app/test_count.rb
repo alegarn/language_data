@@ -20,6 +20,8 @@ class GetScores
   def count_files
     Dir.chdir("./db/all_songs/")
     files = Dir.children(Dir.pwd)
+    Dir.chdir("../../")
+
     return files
   end
 
@@ -29,7 +31,7 @@ class GetScores
   end
 
   def lyrics_parser(file_name)
-    parser = File.open("#{file_name}/#{file_name}.txt", "r")
+    parser = File.open("./db/all_songs/#{file_name}/#{file_name}.txt", "r")
     count = Hash.new #hash
 
     count = processed_lyrics_to_parse(parser,count)
@@ -108,7 +110,7 @@ class GetScores
     lines = count.length
     l = 0
 
-    CSV.open("#{file_name}/#{file_name}.txt_lyrics_per_voc_score.csv", "w") do |row|
+    CSV.open("./db/all_songs/#{file_name}/#{file_name}.txt_lyrics_per_voc_score.csv", "w") do |row|
       row << ["ID","WORD","FOUND"]
       while l <= lines - 1
         row << ["#{l+1}",count[l][0], count[l][1].to_s]

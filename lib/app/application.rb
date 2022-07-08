@@ -1,4 +1,5 @@
 require_relative 'frequency_scrapper'
+require_relative 'own_voc'
 require_relative 'title_lyrics_scrapper'
 require_relative 'test_count'
 require_relative 'select'
@@ -18,31 +19,53 @@ class Application
       If you want to leave, 'ctrl + z' ('ctrl + x or c' in Mac) or '6'
       __________________________________________________________________"
       puts "When beginning with this program, press every keys in order (1,2,3,4)
-      Of course wait until you see that this action is finished before pressing other keys ;)"
+Of course wait until you see that this action is finished before pressing other keys ;)"
       puts "1, 2, 3, 4, 5 or 6 ? >"
 
       key = gets.chomp.to_i
 
       case key
       when 1
+
         `clear`
         go_main_scrapper()
+
       when 2
+
         `clear`
-        go_frequency_scrapper()
+        print "Scrapping: '1'
+If you want to add your own (console writing): '2'
+>"
+        p = gets.chomp
+
+        if p == "1"
+          go_frequency_scrapper()
+        end
+        if p == "2"
+          go_choose_own_voc()
+        end
+
       when 3
+
         `clear`
         go_get_scores()
+
       when 4
+
         `clear`
         go_choosing_songs_to_learn()
+
       when 5
+
         go_frequency_scrapper()
         go_main_scrapper()
         go_get_scores()
         go_choosing_songs()
+
       when 6
+
         exit()
+
       end
 
     end
@@ -50,7 +73,10 @@ class Application
 
   def go_frequency_scrapper()
     FrequencyScrapper.new
-    #no scrap
+  end
+
+  def go_choose_own_voc()
+    PersonalVocabulary.new
   end
 
   def go_main_scrapper()
