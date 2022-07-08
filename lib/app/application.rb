@@ -7,7 +7,7 @@ class Application
 
   def initialize
     while true
-      `clear`
+      puts `clear`
       puts "Welcome to 'It sounds like my vocab!'
       __________________________________________________________________
       If you want to scrap the data, '1' and 'enter'

@@ -2,10 +2,14 @@ class ChoosingSongsToLearn
 
   def initialize
     #file_parser
-    print "write a file name '...'.csv (the words who are needed)?
-    Without change in the file, you can type: words
+    puts "write a file name '...'.csv (the words who are needed)?
+    __________________________________________________________________
+    Without change in the file, you can type: 'words'
+
     words.txt: top 101 for the most frequent english words, you can find it there: db/words/words.csv
-    When you change it, think to change method: csv_voc_selected, variable: n"
+
+    When you change it, think to change method: csv_voc_selected, variable: n
+    __________________________________________________________________"
     puts ">"
     file_name_selected = gets.chomp
 
@@ -13,11 +17,13 @@ class ChoosingSongsToLearn
     l = files.length
 
     results = compare(songs_lyrics(files,l),selected_voc(file_name_selected))
+
     sort_lyrics_scores(results)
   end
 
   def count_files
-    #Dir.chdir("./db/all_songs/")
+    #you can unactivate if just key '4'
+    Dir.chdir("./db/all_songs/")
     files = Dir.children(Dir.pwd)
     return files
   end
@@ -153,7 +159,14 @@ class ChoosingSongsToLearn
     print "Les 5 premières (plus de vocabulaire):
     "
     show(highest_total_words_number)
-
+    s = 0
+    while s == 0
+      puts "Exit? write 'y'"
+      quit = gets.chomp
+      if quit == "y"
+        s = 1
+      end
+    end
   end
 
   def show(list)
