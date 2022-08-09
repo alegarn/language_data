@@ -1,11 +1,12 @@
 
+# g.ve sc.re to d.t.b.se s.ngs
 class GetScores
 
   def initialize
     print "file name? (a '.txt' type)"
     puts ">"
 
-    files = count_files
+    files = count_files()
     l = files.length
     i = 0
 
@@ -14,10 +15,11 @@ class GetScores
       lyrics_parser(file_name)
       i = i + 1
     end
-
+    sleep(30)
   end
 
-  def count_files
+  # compte sur t..s les f.ch..rs
+  def count_files()
     Dir.chdir("./db/all_songs/")
     files = Dir.children(Dir.pwd)
     Dir.chdir("../../")
