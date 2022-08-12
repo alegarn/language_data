@@ -1,0 +1,2 @@
+class TrackScore < ApplicationRecord
+end

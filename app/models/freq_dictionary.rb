@@ -1,0 +1,2 @@
+class FreqDictionary < ApplicationRecord
+end
