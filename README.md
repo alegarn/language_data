@@ -1,39 +1,24 @@
-﻿# language_data
+# README
 
+This README would normally document whatever steps are necessary to get the
+application up and running.
 
-### Why?
+Things you may want to cover:
 
-When you want to learn a new language listening to popular songs seems to works fine for some. New words, go to your memory, repeated many times during your listening. People that really like the songs enjoy the process, so are more likely to repeat it, and having the words easier in memory when you compare to cramming.
+* Ruby version
 
-Choosing the right song is not always simple (you can like it or not, the vocabulary is not adapted). With this program you can (almost yet, that is the first version) choose some songs based on the vocabulary you want (this version contains: top 100 frequent english words).
+* System dependencies
 
+* Configuration
 
-### Version
+* Database creation
 
-- Pre-alpha (anti)features:
-	- it scraps (gem: Nokogiri) lyrics from a1 band only
-	- it’s console only
-	- you need to have Nordvpn (you can change the code if you want)
-	- still some comments in the code
-	- no database (just text files)
-	- there is no C Ruby gem
-	- It’s really first stage <3
+* Database initialization
 
-### Requirement
+* How to run the test suite
 
-- Ruby: https://www.ruby-lang.org/en/documentation/installation/
+* Services (job queues, cache servers, search engines, etc.)
 
-- Bundler:
+* Deployment instructions
 
-```
-gem install bundler
-```
-
-### How to install
-
-Run `bundle install` (choose your favorite terminal to do so) in the project’s root document.
-
-
-### How it Works
-
-Run `ruby app.rb` (Internet connection required to scrap)
+* ...
