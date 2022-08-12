@@ -15,9 +15,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_12_023214) do
   enable_extension "plpgsql"
 
   create_table "freq_dictionaries", force: :cascade do |t|
-    t.integer "freq_rank", null: false
-    t.string "word", null: false
-    t.string "language", null: false
+    t.integer "freq_rank"
+    t.string "word"
+    t.string "language"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -32,7 +32,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_12_023214) do
   end
 
   create_table "track_scores", force: :cascade do |t|
-    t.integer "track_word"
+    t.integer "track_word_occurence"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "track_id"
@@ -40,9 +40,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_12_023214) do
   end
 
   create_table "tracks", force: :cascade do |t|
-    t.string "title", null: false
-    t.string "song_type", null: false
-    t.string "band", null: false
+    t.string "title"
+    t.string "song_type"
+    t.string "band"
     t.string "album"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
