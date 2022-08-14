@@ -1,6 +1,5 @@
 require 'open-uri'
 require 'fileutils'
-require 'httparty'
 
 require 'webdrivers'
 require 'selenium-webdriver'
