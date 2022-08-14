@@ -15,7 +15,8 @@ class GetScores
       lyrics_parser(file_name)
       i = i + 1
     end
-    sleep(30)
+    puts "Rate songs done"
+    sleep(3.seconds)
   end
 
   # compte sur t..s les f.ch..rs
@@ -33,16 +34,19 @@ class GetScores
   end
 
   def lyrics_parser(file_name)
-    parser = File.open("./db/all_songs/#{file_name}/#{file_name}.txt", "r")
-    count = Hash.new #hash
 
-    count = processed_lyrics_to_parse(parser,count)
+    unless File.exists?("./db/all_songs/#{file_name}/#{file_name}.txt_lyrics_per_voc_score.csv")
+      parser = File.open("./db/all_songs/#{file_name}/#{file_name}.txt", "r")
+      count = Hash.new #hash
 
-    #hash trié
-    count = count.sort_by{ |k,v| -v}#.to_h
-    #quand les paroles ont répété (le minimum) plusieurs (> 5) fois certains mots, elles deviennent efficace pour pouvoir apprendre ces nouveaux mots
-    display_words(file_name, count)
-    write_csv(file_name, count)
+      count = processed_lyrics_to_parse(parser,count)
+
+      #hash trié
+      count = count.sort_by{ |k,v| -v}#.to_h
+      #quand les paroles ont répété (le minimum) plusieurs (> 5) fois certains mots, elles deviennent efficace pour pouvoir apprendre ces nouveaux mots
+      display_words(file_name, count)
+      write_csv(file_name, count)
+    end
 
   end
 
