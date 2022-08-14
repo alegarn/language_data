@@ -1,3 +1,4 @@
+require_relative 'scraper'
 require_relative 'frequency_scrapper'
 require_relative 'own_voc'
 require_relative 'title_lyrics_scrapper'
@@ -80,7 +81,8 @@ If you want to add your own (console writing): '2'
   end
 
   def go_main_scrapper()
-    MainScrapper.new
+    MultiLyricScraper.new
+    #MainScrapper.new
   end
 
   def go_get_scores()
