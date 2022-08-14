@@ -1,11 +1,10 @@
-require 'open-uri'
-require 'fileutils'
+#require 'open-uri'
+#require 'fileutils'
 
-require 'webdrivers'
-require 'selenium-webdriver'
+#require 'webdrivers'
+#require 'selenium-webdriver'
 
-
-class MultiLyricScraper < Kimurai::Base
+class MultiLyricScraper
 
   def initialize
 
@@ -14,7 +13,7 @@ class MultiLyricScraper < Kimurai::Base
       driver = browser()
       wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
-      pages = discography_parser(c, driver)
+      pages = discography_parser(c, driver, wait)
       driver = change_ip(driver, pages[2])
       #dr.v.r c.nt..n.ng the op.n br.ws.r
       lyrics_scrapper(driver, pages, pages[2])
@@ -41,7 +40,7 @@ class MultiLyricScraper < Kimurai::Base
   end
 
 
-  def discography_parser(c, driver)
+  def discography_parser(c, driver, wait)
     # option: écrire le nom d'un groupe
     # va trouver tous les noms les plus proches (sont contenus dans url vérifié)
     #"https://www.azlyrics.com/a/a1.html"
@@ -57,17 +56,40 @@ class MultiLyricScraper < Kimurai::Base
     titles = []
     links = []
 
-    #pr.ndre l.s l..ns
-    elements = driver.find_elements(:class,'listalbum-item')
-    wait.until{elements}
+    begin
+      #pr.ndre l.s l..ns
+      elements = driver.find_elements(:class,'listalbum-item')
+      wait.until{elements}
+    rescue => e
+      puts e.message
+      puts url_band
+    end
 
     elements.each { |e|
 
-      link =  e.find_element(:tag_name,'a').attribute("href")
-      links << link
+      #en m.th.d.s
+      begin
+        link =  e.find_element(:tag_name,'a').attribute("href")
+        links << link
+      rescue => error
+        puts error.message
+        puts "link"
+        link = "no_link"
+        puts url_band
+        links << link
+      end
 
-      title = e.text
-      titles << title
+      begin
+        title = e.text
+        titles << title
+      rescue => error
+        puts error.message
+        puts "title"
+        title = "no_title"
+        puts url_band
+          titles << title
+      end
+
     }
 
 
@@ -118,9 +140,16 @@ class MultiLyricScraper < Kimurai::Base
 
   def extract_song_lyrics(page_url, driver)
 
-    driver.get(page_url)
-    xpath = "/html/body/div[2]/div/div[2]/div[5]"
-    lyrics = driver.find_element(xpath: xpath).text
+    begin
+      driver.get(page_url)
+      xpath = "/html/body/div[2]/div/div[2]/div[5]"
+      lyrics = driver.find_element(xpath: xpath).text
+    rescue => e
+      puts e.message
+      lyrics = page_url
+      puts page_url
+
+    end
 
     return lyrics
 
@@ -128,13 +157,28 @@ class MultiLyricScraper < Kimurai::Base
 
   def create_file(title, song_lyrics)
 
-    system 'mkdir', '-p', "./db/all_songs/#{title}"
-    File.write("./db/all_songs/#{title}/#{title}.txt", "")
+    begin
+      #https://www.delftstack.com/howto/ruby/ruby-file-exists/
+      unless File.exists?("./db/all_songs/#{title}")
+        FileUtils.mkdir_p("./db/all_songs/#{title}")
+        #system 'mkdir', '-p', "./db/all_songs/#{title}"
+      end
 
-    ##https://stackoverflow.com/questions/601888/how-do-you-loop-through-a-multiline-string-in-ruby
-    song_lyrics.each_line do |line|
-      File.write("./db/all_songs/#{title}/#{title}.txt", "#{line}", mode:'a')
+      unless File.file?("./db/all_songs/#{title}/#{title}.txt")
+        File.write("./db/all_songs/#{title}/#{title}.txt", "")
+
+        #https://stackoverflow.com/questions/601888/how-do-you-loop-through-a-multiline-string-in-ruby
+        song_lyrics.each_line do |line|
+          File.write("./db/all_songs/#{title}/#{title}.txt", "#{line}", mode:'a')
+        end
+      end
+
+    rescue => e
+      print title + "is here"
     end
+
+
+
 
   end
 

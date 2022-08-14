@@ -1,6 +1,6 @@
-require "nokogiri"
-require "open-uri"
-require "csv"
+#require "nokogiri"
+#require "open-uri"
+#require "csv"
 
 class FrequencyScrapper
 
