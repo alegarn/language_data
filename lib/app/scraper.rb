@@ -12,14 +12,15 @@ class MultiLyricScraper
     #"https://www.azlyrics.com/a/a1.html"
     #"https://www.azlyrics.com/e/eminem.html",
     #"https://www.azlyrics.com/b/beatles.html",
+    #"https://www.azlyrics.com/j/jackson.html",
     url_band = [
-      "https://www.azlyrics.com/j/jackson.html",
+
       "https://www.azlyrics.com/m/madonna.html",
       "https://www.azlyrics.com/b/bobmarley.html",
       "https://www.azlyrics.com/r/rihanna.html"
     ]
-
-    0.upto((url_band.length) - 1) do |c|
+    n = (url_band.length) - 1
+    0.upto(n) do |c|
       #
       driver = browser()
       wait = Selenium::WebDriver::Wait.new(:timeout => 10)
