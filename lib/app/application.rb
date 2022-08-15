@@ -8,7 +8,11 @@ require_relative 'select'
 class Application
 
   def initialize
+
     while true
+
+      sleep(3)
+
       puts `clear`
       puts "Welcome to 'It sounds like my vocab!'
       __________________________________________________________________

@@ -71,5 +71,3 @@ class FrequencyScrapper
   end
 
 end
-
-FrequencyScrapper.new
