@@ -59,12 +59,13 @@ class MultiLyricScraper
 
 
     page = driver.get(url_band[c])
-    titles = []
+
+    albums_titles = []
     links = []
 
     begin
       #pr.ndre l.s l..ns
-      elements = driver.find_elements(:class,'listalbum-item')
+      elements = driver.find_elements(:class,'listalbum-item') #q.i s.nt s..s id=L.st.lb.m
       wait.until{elements}
       puts url_band[c]
     rescue => e
@@ -75,6 +76,15 @@ class MultiLyricScraper
     elements.each { |e|
 
       #en m.th.d.s
+
+      if album
+        album = e
+
+      end
+
+
+
+
       begin
         link =  e.find_element(:tag_name,'a').attribute("href")
         links << link
@@ -88,7 +98,8 @@ class MultiLyricScraper
 
       begin
         title = e.text
-        titles << title
+        actual_alb = album
+        albums_titles << [title, album]
       rescue => error
         puts error.message
         puts "title"
@@ -97,8 +108,13 @@ class MultiLyricScraper
         titles << title
       end
 
+
+
+
+
     }
 
+    csv l.st alb.m t.tl.s
 
     return [titles, links, url_band[c]]
 

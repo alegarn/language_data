@@ -2,6 +2,8 @@ require_relative 'scraper'
 require_relative 'frequency_scrapper'
 require_relative 'own_voc'
 require_relative 'title_lyrics_scrapper'
+require_relative 'file_orgniser'
+require_relative 'score_transfer'
 require_relative 'test_count'
 require_relative 'select'
 
@@ -54,6 +56,13 @@ If you want to add your own (console writing): '2'
 
         `clear`
         go_get_scores()
+        puts "Tr.nsf.r the s.ngs (y/n)?
+        >"
+        transfer = gets.chomp
+        if transfer == "y"
+          go_score_transfer()
+        end
+
 
       when 4
 
@@ -91,6 +100,11 @@ If you want to add your own (console writing): '2'
 
   def go_get_scores()
     GetScores.new
+  end
+
+  def go_score_transfer()
+    FileOrganiser.new
+    ScoreTransfer.new
   end
 
   def go_choosing_songs_to_learn()

@@ -35,7 +35,7 @@ class ChoosingSongsToLearn
 
   def compare(word_songs, word_dict_freq)
     p = 0
-    # comparer les mots à apprendre (soit les 10 premiers en anglais / v..r le v.c.b.l..re ch..sie), se trouvant dans les paroles
+    # comparer les mots à apprendre (soit les 10 premiers en anglais / voir le vocabulaire choisie), se trouvant dans les paroles
     contain_lyrics_infos = []
 
     # = lyrics = [[id, song_name, word, total_found], i][ ]
@@ -44,6 +44,7 @@ class ChoosingSongsToLearn
       high_freq_voc_lyrics = lyrics_high_occurence(word_dict_freq, lyrics)
 
       score = 0
+      
       high_freq_voc_lyrics.each {|number| score = score + number[1].to_i}
       high_freq_voc_lyrics.sort! { |a,b| b[1].to_i <=> a[1].to_i}
 
