@@ -35,16 +35,16 @@ class ChoosingSongsToLearn
 
   def compare(word_songs, word_dict_freq)
     p = 0
-    # comparer les mots à apprendre (soit les 10 premiers en anglais / voir le vocabulaire choisie), se trouvant dans les paroles
     contain_lyrics_infos = []
-
+    
+    # comparer les mots à apprendre (soit les 10 premiers en anglais / voir le vocabulaire choisie), se trouvant dans les paroles
     # = lyrics = [[id, song_name, word, total_found], i][ ]
     word_songs.map do |lyrics|
 
       high_freq_voc_lyrics = lyrics_high_occurence(word_dict_freq, lyrics)
 
       score = 0
-      
+
       high_freq_voc_lyrics.each {|number| score = score + number[1].to_i}
       high_freq_voc_lyrics.sort! { |a,b| b[1].to_i <=> a[1].to_i}
 
@@ -68,6 +68,7 @@ class ChoosingSongsToLearn
       # va chercher nombre de mots dans la liste
       while i < 50 # compt..r < nre de m.ts? (avec une l.m.te des 50 pr.m..rs, on arr.ve p.s au b..t du d.ct..nn..re => p..v..r tr..v.r le n.mbre de ch.que )
         # compter les mots à partir de 5 répétitions
+        #lyrics = [[id, song_name, word, total_found], i][ ]
         if lyrics[2][i] == row && lyrics[3][i].to_i >= 5
           high_freq_voc_lyrics << [lyrics[2][i],lyrics[3][i]]
         end
@@ -152,7 +153,7 @@ class ChoosingSongsToLearn
     return [rank, word]
   end
 
-   # sort_lyrics_scores(song_name, [w.rdS (wr.tt.n),t.t.l_f..ndS (t.t.l_occ.rr.nce)], sc.re)
+  # sort_lyrics_scores(song_name, [w.rdS (wr.tt.n),t.t.l_f..ndS (t.t.l_occ.rr.nce)], sc.re)
   def sort_lyrics_scores(contain_lyrics_infos)
 
     contain_lyrics_infos.sort! { |a, b|
