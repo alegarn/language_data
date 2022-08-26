@@ -54,9 +54,9 @@ group :development, :test do
 end
 
 group :development do
-
-  
-
+  gem "csv"
+  gem "faker"
+  gem 'table_print'
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
@@ -74,9 +74,8 @@ group :test do
   gem "webdrivers"
 end
 
-gem "csv"
-gem "faker"
+
 gem "pry"
 gem "dotenv"
 gem 'activerecord'
-gem 'table_print'
+
