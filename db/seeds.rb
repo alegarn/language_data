@@ -14,15 +14,37 @@ TrackScore.destroy_all
 Track.destroy_all
 FreqDictionary.destroy_all
 
+def dir_childrens()
+  return Dir.children(Dir.pwd)
+end
+
+def show_enter(type)
+  print "#{type}"
+  Dir.chdir("#{type}")
+end
+
+def dir_left_show_path()
+  Dir.chdir("../")
+  puts Dir.getwd
+end
+
+def change_song_type(song_types, artist)
+  genre = song_types[:"#{artist}"]
+  return genre
+end
+
+
 puts Dir.getwd
 Dir.chdir("lib/assets")
 
+song_types = {:michael_jackson => 'pop', :madonna => 'dance',:the_beatles => "rock'n roll", :a1 => "pop-rock", :jose_gonzales => "indie-folk", :eminem => "rap"}
 
-artists = Dir.children(Dir.pwd)
+artists = dir_childrens()
 
 artists.each do |artist|
   if artist == "words"
-    Dir.chdir("#{artist}")
+    show_enter(artist)
+    print (" artist \n")
     Dir.glob("*.csv").each do |file|
 
       puts "#{file} un csv"
@@ -40,90 +62,101 @@ artists.each do |artist|
           language: "english"
         )
       }
+
     end
 
-    puts Dir.getwd
-    Dir.chdir("../")
-    puts Dir.getwd
+    dir_left_show_path()
   end
 end
 
+
+
 artists.each do |artist|
 
+  genre = change_song_type(song_types, artist)
+
   if File.directory?("#{artist}") && artist != "words"
-    puts "#{artist} artists"
-    Dir.chdir("#{artist}")
-    albums = Dir.children(Dir.pwd)
+    show_enter(artist)
+    print (" artist \n")
+
+    albums = dir_childrens()
 
     albums.each { |album|
-      puts "#{album} albums"
-      Dir.chdir("#{album}")
-      songs = Dir.children(Dir.pwd)
+      unless album == "a"
+        show_enter(album)
+        print(" album \n")
+        songs = dir_childrens()
+      end
 
       songs.each do |song|
-        puts "#{song} song"
-        Dir.chdir("#{song}")
-        track = Track.create(
-          title: song,
-          song_type: "0" ,
-          band: artist,
-          album: album
-        )
-        Dir.glob("*.csv").each do |file|
+        unless song == "a" || song == " "
+          show_enter(song)
+          print(" song \n")
+          binding.pry
+          track = Track.create!(
+            title: song,
+            song_type: "#{genre}",
+            band: artist,
+            album: album
+          )
+          binding.pry
+          Dir.glob("*.csv").each do |file|
 
-          puts "#{file} un csv"
+            puts "#{file} un csv"
 
-          w = []
-          o = []
-          a = 0
+            w = []
+            o = []
+            a = 0
 
-          parse_csv = CSV.parse(File.read("#{file}"), headers:true)
-          parse_csv.each_with_index { |line, index|
-            if index == parse_csv.size - 1
-              break
-            end
-            a = a + 1
-            w << line[1]
-            o << line[2]
+            parse_csv = CSV.parse(File.read("#{file}"), headers:true)
+            parse_csv.each_with_index { |line, index|
+              if index == parse_csv.size - 1
+                break
+              end
+              a = a + 1
+              w << line[1]
+              o << line[2]
 
-          }
-          0.upto((a-1)) do |word|
+            }
+            0.upto((a-1)) do |word|
 
-            begin
-              search = FreqDictionary.find_by_word("#{w[word]}")
+              begin
+                search = FreqDictionary.find_by_word("#{w[word]}")
 
-              unless search.nil?
-                track_score = TrackScore.create(
-                  track_id: Track.last.id,
-                  track_word_occurence: o[word]
-                )
+                unless search.nil?
+                  binding.pry
+                  track_score = TrackScore.create(
+                    track_id: Track.last.id,
+                    track_word_occurence: o[word]
+                  )
 
-                track_score_freq_dictionary = TrackScoreFreqDictionary.create(
-                  track_score_id: TrackScore.last.id ,
-                  freq_dictionary_id: search.id
-                )
+                  track_score_freq_dictionary = TrackScoreFreqDictionary.create(
+                    track_score_id: TrackScore.last.id ,
+                    freq_dictionary_id: search.id
+                  )
+
+                end
+
+              rescue => e
+                puts e.message
 
               end
 
-            rescue => e
-              puts e.message
 
             end
 
           end
-
         end
-        Dir.chdir("../")
-        puts Dir.getwd
+
+        dir_left_show_path()
 
       end
-      Dir.chdir("../")
-      puts Dir.getwd
+      dir_left_show_path()
 
     }
-    Dir.chdir("../")
-    puts Dir.getwd
+    dir_left_show_path()
 
   end
+
 
 end
