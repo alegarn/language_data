@@ -1,0 +1,2 @@
+module FreqDictionariesHelper
+end
