@@ -1,11 +1,18 @@
-<div class="navbar header center">
-    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="">Sing Those Words</a>
+<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom border-warning">
+  <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+    <div class="container">
 
-        <ul class="pure-menu-list">
-            <li class="pure-menu-item pure-menu-selected"> <%= link_to "Home", root_path, class:"pure-menu-link" %> </li>
-            <li class="pure-menu-item"> <%= link_to "Sing Those Words!", freq_dictionaries_path, class:"pure-menu-link" %> </li>
-            <li class="pure-menu-item"> <%= link_to "Questions", home_pages_questions_path, class:"pure-menu-link" %> </li>
-        </ul>
+      <%= render "layouts/svg" %>
+      <span class="fs-4">Sing Those Words</span>
+
     </div>
-</div>
+
+  </a>
+
+  <ul class="nav nav-pills">
+    <li class="nav-item"><%= link_to "Home", root_path, class:"nav-link active text-bg-dark text-warning" %></li>
+    <li class="nav-item"><%= link_to "Sing Those Words!", freq_dictionaries_path, class:"nav-link text-dark" %></li>
+    <li class="nav-item"><%= link_to "Sondage", home_pages_ask_path, class:"nav-link text-dark" %></li>
+
+  </ul>
+</header>

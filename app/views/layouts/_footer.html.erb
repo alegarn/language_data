@@ -1,8 +1,7 @@
-<div class="footer l-box center pure-g">
-  <div class="pure-u-3-5 pure-u-md-1-3">
-    <p class=""> <%= link_to "Questions", home_pages_questions_path %> </p>
+<footer class="text-center justify-content-between align-middle py-1 mt-1 border-top border-warning position-static-bottom">
+  <div class="row ">
+    <span class="col text-muted"> @alegar.ch 2022</span>
+    <a class="col" href="<%= root_path %>"><span > <%= render "layouts/svg"%></span></a>
+    <span class="col"><%= link_to "Questions", home_pages_questions_path , class:"nav-link px-2 text-muted"%></span>
   </div>
-  <div class="pure-u-3-5 pure-u-md-1-3">
-    <p class=""> @alegar.ch 2022</p>
-  </div>
-</div>
+</footer>
