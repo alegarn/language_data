@@ -6,7 +6,7 @@ class FreqDictionary < ApplicationRecord
   validates :word, presence: true, uniqueness: true
   validates :language, presence: true
 
-  attr_accessor :words, :track_word_occurence, :tracks_scores
+  attr_accessor :words, :track_word_occurence, :computed_tracks_scores
 
   #https://medium.com/@yassimortensen/simple-search-form-in-rails-8483739e4042
 
@@ -56,19 +56,19 @@ class FreqDictionary < ApplicationRecord
 
   def self.calculate_track_scores(tracks_words_occurences)
     titles = {}
-    tracks_scores = []
+    computed_tracks_scores = []
       tracks_words_occurences.each do |title, track_title_w_obj_occ|
         score = 0
       track_title_w_obj_occ.each { |key, occ|
         score  = score + occ.to_i
       }
-        tracks_scores << [title, score, track_title_w_obj_occ[0][2] ]
+        computed_tracks_scores << [title, score, track_title_w_obj_occ[0][2] ]
     end
-      tracks_scores = tracks_scores.sort_by { |k, v| -v}
-      if tracks_scores.length > 10
-      return tracks_scores[0,10]
+      computed_tracks_scores = computed_tracks_scores.sort_by { |k, v| -v}
+      if computed_tracks_scores.length > 10
+      return computed_tracks_scores[0,10]
     end
-    return tracks_scores
+    return computed_tracks_scores
   end
-        
+
 end
