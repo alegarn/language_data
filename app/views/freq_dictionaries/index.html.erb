@@ -1,2 +1,44 @@
-<h1>FreqDictionaries#index</h1>
-<p>Find me in app/views/freq_dictionaries/index.html.erb</p>
+<div class="container text-center">
+  <div class=" mb-3">
+    <div class="row">
+      <div class="card text-center border-warning">
+
+        <%= form_with url:freq_dictionaries_path, method: :get, data: { turbo_frame: "search" } do |form| %>
+
+        <div class="card-body">
+          <h5 class="card-title">Du vocabulaire à apprendre? </h5>
+          <ul>
+            <li>Rentrez le dans la barre de recherche</li>
+            <li>Choisissez votre genre de musique</li>
+            <li>Puis cliquez sur Sing Those Words</li>
+          </ul>
+
+          <%= form.label :search_w, "Search for:" %>
+            <p><%= form.text_field :search_w , class:"form-control me-6"%></p>
+            <%= form.label :song_type, "Choisir son genre", class:"form-label" %>
+            <p class="card-text"><%= form.select :song_type, [["Pop", "pop"], ["Dance", "dance"], ["Rock'n roll", "rock'n roll"], ["Pop-rock", "pop-rock"], ["Indie-folk", "indie-folk"], ["Rap", "rap"]], class:"form-select" %></p>
+          <%= form.submit "Sing Those Words", class:"btn btn-outline-warning"  %>
+
+        </div>
+
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+
+  <% if @words.nil? %>
+
+  <div class="align-center">
+    <p class="">  "Hmmm?"  </p>
+  </div>
+
+  <% end %>
+
+  <% unless @words.nil? %>
+
+  <%= render "search", search: @computed_tracks_scores %>
+
+  <% end %>
+
+</div>
