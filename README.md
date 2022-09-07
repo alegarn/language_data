@@ -12,7 +12,7 @@ Choosing the right song is not always simple (you can like it or not, the vocabu
 
 - Alpha (anti)features:
 	- it shows lyrics from 5 bands only (scrapping takes time...)
-	- it’s simple Rails
+	- it’s Rails + Turboframe
 	- still some comments in the code
 	- there is no C Ruby gem
 	- It’s really first stage <3
