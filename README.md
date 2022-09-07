@@ -1,24 +1,39 @@
-# README
+# language_data
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+### Why?
 
-* Ruby version
+When you want to learn a new language listening to popular songs seems to works fine for some. New words, go to your memory, repeated many times during your listening. People that really like the songs enjoy the process, so are more likely to repeat it, and having the words easier in memory when you compare to cramming.
 
-* System dependencies
+Choosing the right song is not always simple (you can like it or not, the vocabulary is not adapted). With this program you can (almost yet, that is the first version) choose some songs based on the vocabulary you want (this version contains: top 100/5000 frequent english words).
 
-* Configuration
 
-* Database creation
+### Version
 
-* Database initialization
+- Alpha (anti)features:
+	- it shows lyrics from 5 bands only (scrapping takes time...)
+	- it’s simple Rails
+	- still some comments in the code
+	- there is no C Ruby gem
+	- It’s really first stage <3
 
-* How to run the test suite
+### Requirement
 
-* Services (job queues, cache servers, search engines, etc.)
+- Ruby (3.1.2): https://www.ruby-lang.org/en/documentation/installation/
 
-* Deployment instructions
+- Rails (7.0.3)
 
-* ...
+- Bundler:
+
+```
+gem install bundler
+```
+
+### How to install
+
+Run `bundle install` (choose your favorite terminal to do so) in the project’s root document.
+
+
+### How it Works
+
+Run `rails server`
