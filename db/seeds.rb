@@ -33,6 +33,49 @@ def change_song_type(song_types, artist)
   return genre
 end
 
+def create_track(song, genre, artist, album )
+  track = Track.create!(
+    title: song,
+    song_type: "#{genre}",
+    band: artist,
+    album: album
+  )
+end
+
+def get_occ_word(file)
+  puts "#{file} un csv"
+
+  w = []
+  o = []
+  a = 0
+
+  parse_csv = CSV.parse(File.read("#{file}"), headers:true)
+  parse_csv.each_with_index { |line, index|
+    if index == parse_csv.size - 1
+      break
+    end
+    a = a + 1
+    w << line[1]
+    o << line[2]
+
+  }
+  return [w, o, a]
+end
+
+def create_ts(o, word)
+  track_score = TrackScore.create(
+    track_id: Track.last.id,
+    track_word_occurence: o[word]
+  )
+end
+
+def create_tsfd(search)
+  track_score_freq_dictionary = TrackScoreFreqDictionary.create(
+    track_score_id: TrackScore.last.id ,
+    freq_dictionary_id: search.id
+  )
+
+end
 
 puts Dir.getwd
 Dir.chdir("lib/assets")
@@ -82,77 +125,50 @@ artists.each do |artist|
     albums = dir_childrens()
 
     albums.each { |album|
-      unless album == "a"
+      unless album == "a" || album == " " || Dir.exist?("#{album}") == false
         show_enter(album)
         print(" album \n")
         songs = dir_childrens()
-      end
 
-      songs.each do |song|
-        unless song == "a" || song == " "
-          show_enter(song)
-          print(" song \n")
-          binding.pry
-          track = Track.create!(
-            title: song,
-            song_type: "#{genre}",
-            band: artist,
-            album: album
-          )
-          binding.pry
-          Dir.glob("*.csv").each do |file|
+        songs.each do |song|
+          unless song == "a" || song == " " || Dir.exist?("#{song}") == false
+            show_enter(song)
+            print(" song \n")
+            #binding.pry
+            create_track(song, genre, artist, album )
+            #binding.pry
+            Dir.glob("*.csv").each do |file|
 
-            puts "#{file} un csv"
+              result_get_occ_word = get_occ_word(file)
+              w = result_get_occ_word[0]
+              o = result_get_occ_word[1]
+              a = result_get_occ_word[2]
 
-            w = []
-            o = []
-            a = 0
+              0.upto((a-1)) do |word|
 
-            parse_csv = CSV.parse(File.read("#{file}"), headers:true)
-            parse_csv.each_with_index { |line, index|
-              if index == parse_csv.size - 1
-                break
-              end
-              a = a + 1
-              w << line[1]
-              o << line[2]
+                begin
+                  search = FreqDictionary.find_by_word("#{w[word]}")
 
-            }
-            0.upto((a-1)) do |word|
+                  unless search.nil?
+                    #binding.pry
+                    create_ts(o, word)
+                    create_tsfd(search)
+                  end
 
-              begin
-                search = FreqDictionary.find_by_word("#{w[word]}")
-
-                unless search.nil?
-                  binding.pry
-                  track_score = TrackScore.create(
-                    track_id: Track.last.id,
-                    track_word_occurence: o[word]
-                  )
-
-                  track_score_freq_dictionary = TrackScoreFreqDictionary.create(
-                    track_score_id: TrackScore.last.id ,
-                    freq_dictionary_id: search.id
-                  )
-
+                rescue => e
+                  puts e.message
                 end
 
-              rescue => e
-                puts e.message
 
               end
 
-
             end
-
+            dir_left_show_path()
           end
+
         end
-
         dir_left_show_path()
-
       end
-      dir_left_show_path()
-
     }
     dir_left_show_path()
 
