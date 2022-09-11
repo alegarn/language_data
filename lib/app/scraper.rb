@@ -9,21 +9,21 @@ class MultiLyricScraper
   def initialize
     # option: écrire le nom d'un groupe
     # va trouver tous les noms les plus proches (sont contenus dans url vérifié)
-    #"https://www.azlyrics.com/a/a1.html"
+    # "https://www.azlyrics.com/a/a1.html",
     #"https://www.azlyrics.com/e/eminem.html",
     #"https://www.azlyrics.com/b/beatles.html",
     #"https://www.azlyrics.com/j/jackson.html",
+    #"https://www.azlyrics.com/m/madonna.html",
+    #"https://www.azlyrics.com/b/bobmarley.html",
+    #"https://www.azlyrics.com/r/rihanna.html"
     url_band = [
-
-      "https://www.azlyrics.com/m/madonna.html",
-      "https://www.azlyrics.com/b/bobmarley.html",
-      "https://www.azlyrics.com/r/rihanna.html"
+      "https://www.azlyrics.com/e/eminem.html"
     ]
     n = (url_band.length) - 1
     0.upto(n) do |c|
       #
       driver = browser()
-      wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+      wait = Selenium::WebDriver::Wait.new(:timeout => 120)
 
       pages = discography_parser(c, driver, wait, url_band)
       driver = change_ip(driver, pages[2])
@@ -43,83 +43,105 @@ class MultiLyricScraper
     #https://www.browserstack.com/docs/automate/selenium/firefox-profile#ruby
     options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
 
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+
     #options = Selenium::WebDriver::Options.firefox #ch..se f.r.f.x
     options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless']) #br.ws.r h..dl.ss m.de
     # erreur Net::ReadTimeout with #<TCPSocket:(closed)> w.ll w..t 120s
     #https://github.com/SeleniumHQ/selenium/issues/7563
+    #https://github.com/SeleniumHQ/selenium/wiki/Ruby-Bindings#internal-timeouts
     client = Selenium::WebDriver::Remote::Http::Default.new
-    client.read_timeout = 120
-    driver = Selenium::WebDriver.for(:firefox, options: options)
+    client.read_timeout = 180
+    #driver = Selenium::WebDriver.for :remote, http_client: client
+    #https://www.faqcode4u.com/faq/181496/netreadtimeout-netreadtimeout-selenium-ruby
+    driver = Selenium::WebDriver.for(:firefox, http_client: client, options: options)
+
+    #https://stackoverflow.com/questions/72374955/failed-to-read-marionette-port-when-running-selenium-geckodriver-firefox-a
+
+
+    #driver = Selenium::WebDriver.for(:firefox, options: options)
 
     return driver
   end
 
 
   def discography_parser(c, driver, wait, url_band)
+    #  binding.pry
 
-
+    #download_total_discography_page(band, url_band_str )
     page = driver.get(url_band[c])
-
-    albums_titles = []
+    titles = []
+    #albums_titles = []
     links = []
 
-    begin
-      #pr.ndre l.s l..ns
-      elements = driver.find_elements(:class,'listalbum-item') #q.i s.nt s..s id=L.st.lb.m
-      wait.until{elements}
-      puts url_band[c]
-    rescue => e
-      puts e.message
-      puts url_band[c]
-    end
+    elements = return_elements(driver, url_band, c)
 
     elements.each { |e|
-
       #en m.th.d.s
 
-      if album
-        album = e
+      #if album
+      #  album = e
 
-      end
-
-
-
-
-      begin
-        link =  e.find_element(:tag_name,'a').attribute("href")
-        links << link
-      rescue => error
-        puts error.message
-        puts "link"
-        link = "no_link"
-        puts url_band
-        links << link
-      end
-
-      begin
-        title = e.text
-        actual_alb = album
-        albums_titles << [title, album]
-      rescue => error
-        puts error.message
-        puts "title"
-        title = "no_title"
-        puts url_band
-        titles << title
-      end
-
-
-
-
+      #  end
+      links = search_link(e, links, url_band)
+      titles = search_title(e, titles, url_band)
 
     }
 
-    csv l.st alb.m t.tl.s
+    #csv l.st alb.m t.tl.s
 
     return [titles, links, url_band[c]]
 
   end
 
+  def return_elements(driver, url_band, c)
+    begin
+      #pr.ndre l.s l..ns
+      elements = driver.find_elements(:class,'listalbum-item') #q.i s.nt s..s id=L.st.lb.m
+      wait.until{elements}
+      puts url_band[c]
+      return elements
+    rescue => e
+      puts e.message
+      puts url_band[c]
+      return elements
+    end
+  end
+
+  def search_link(e, links, url_band)
+    begin
+      link =  e.find_element(:tag_name,'a').attribute("href")
+      links << link
+      return links
+    rescue => error
+      puts error.message
+      puts "link"
+      link = "no_link"
+      puts url_band
+      links << link
+      return links
+    end
+
+  end
+
+  def search_title(e, titles, url_band)
+    begin
+      title = e.text
+      #
+      #actual_alb = album
+      titles << title
+      #albums_titles << [title, album]
+      return titles
+    rescue => error
+      puts error.message
+      puts "title"
+      title = "no_title"
+      puts url_band
+      #
+      titles << title
+      return titles
+    end
+  end
 
   def lyrics_scrapper(driver, song_links, tab_url)
     titles = song_links[0]
@@ -135,8 +157,9 @@ class MultiLyricScraper
 
 
       #r..n if p.s le f.ch..r.txt and d.d.ns un f.ch..r => <> n.l  || il se tr..ve m..v..s f.ch..r
-      unless File.exists?("./db/all_songs/#{title}/#{title}.txt") && Dir.entries("./db/all_songs/#{title}")[0] != nil || Dir.entries("./db/all_songs/#{title}")[0] == "#{title}.txt"
-
+      unless File.exists?("./db/all_songs/#{title}/#{title}.txt") #&&
+        #unless  Dir.entries("./db/all_songs/#{title}")[0] != nil #||
+        #unless Dir.entries("./db/all_songs/#{title}")[0] == "#{title}.txt"
         #./db/all_songs/#{title}/ et oth.r th.n t.tle
 
         #moving ip
@@ -147,6 +170,10 @@ class MultiLyricScraper
 
         song_lyrics = extract_song_lyrics(page_url, driver)
         create_file(title, song_lyrics)
+        #  end
+        #end
+
+
 
       end
 
