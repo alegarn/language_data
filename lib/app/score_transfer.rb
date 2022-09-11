@@ -125,7 +125,7 @@ class ScoreTransfer
 
             if csv == nil
               begin
-                FileUtils.mv file_score_p, transfr_track
+                FileUtils.mv(file_score_p, transfr_track)
                 puts tree_row
                 print " #{song_name_as_h_k} in artists/#{artist}/#{album}/#{track}"
               rescue => e
