@@ -7,6 +7,6 @@ gem 'nokogiri'
 gem 'open-uri'
 gem 'csv'
 gem 'fileutils'
-gem 'selenium-webdriver', '~> 4.0'
+gem 'selenium-webdriver', '~> 4.4.0'
 gem 'webdrivers', '~> 5.0'
-
+gem 'httparty'
