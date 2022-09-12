@@ -9,10 +9,9 @@ class ScoreTransfer
     puts Dir.getwd
 
     lyrics_coordinates = Hash.new
-    to_artist_files_csv = []
 
     lyrics_coordinates = find_lyrics_coordinates(lyrics_coordinates)
-    to_artist_files_csv = find_artists_coordinates(to_artist_files_csv)
+    to_artist_files_csv = find_artists_coordinates()
 
     parse_songs(to_artist_files_csv, lyrics_coordinates)
 
@@ -24,7 +23,7 @@ class ScoreTransfer
 
 
   def find_lyrics_coordinates(lyrics_coordinates)
-
+    puts Dir.getwd
     Dir.chdir("db/all_songs")
 
     songs = Dir.children(Dir.pwd)
@@ -43,14 +42,23 @@ class ScoreTransfer
 
   end
 
-  def find_artists_coordinates(to_artist_files_csv)
-
+  def find_artists_coordinates()
+    to_artist_files_csv = []
     Dir.chdir("artists")
     dir_artists = Dir.children(Dir.pwd)
 
     dir_artists.each { |artist_data|
-      if artist_data.include?(".csv")
-        to_artist_files_csv << "artists/#{artist_data}"
+      unless artist_data.end_with?(".html")
+        if dir_artists.include?(artist_data) 
+            Dir.chdir(artist_data)
+            dir_artist = Dir.children(Dir.pwd)
+            dir_artist.each { |file|
+              if file.include?(".csv")
+                to_artist_files_csv << "artists/#{artist_data}/#{file}"
+              end
+            }
+          Dir.chdir("../")
+        end
       end
     }
 
@@ -74,7 +82,7 @@ class ScoreTransfer
 
           return score_name
         end
-        FileUtils.mv(song, score_name)
+        FileUtils.cp_r(song, score_name)
       end
     }
 
@@ -92,7 +100,7 @@ class ScoreTransfer
       return song_dir
     end
 
-    FileUtils.mv(song_dir, dir_name)
+    FileUtils.cp_r(song_dir, dir_name)
 
     return dir_name
 
@@ -125,7 +133,7 @@ class ScoreTransfer
 
             if csv == nil
               begin
-                FileUtils.mv(file_score_p, transfr_track)
+                FileUtils.cp_r(file_score_p, transfr_track)
                 puts tree_row
                 print " #{song_name_as_h_k} in artists/#{artist}/#{album}/#{track}"
               rescue => e
