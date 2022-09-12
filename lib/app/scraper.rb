@@ -30,7 +30,7 @@ class MultiLyricScraper
       #dr.v.r c.nt..n.ng the op.n br.ws.r
       lyrics_scrapper(driver, pages, pages[2])
     end
-
+    driver.close()
   end
 
 
