@@ -4,93 +4,92 @@ class FileOrganiser
     # option: écrire le nom d'un groupe
     # va trouver tous les noms les plus proches (sont contenus dans url vérifié)
 
+    #
+    #
+    #
+    #
     #{}"https://www.azlyrics.com/b/bobmarley.html",
     #{}"https://www.azlyrics.com/r/rihanna.html"
 
     url_band = [
       "https://www.azlyrics.com/a/a1.html",
+      "https://www.azlyrics.com/j/jackson.html",
       "https://www.azlyrics.com/e/eminem.html",
       "https://www.azlyrics.com/b/beatles.html",
-      "https://www.azlyrics.com/j/jackson.html",
       "https://www.azlyrics.com/m/madonna.html"
     ]
 
     n = (url_band.length) - 1
 
-    albums_titles_band = []
 
-    create_artists_enter_dir()
+
+    self.create_artists_enter_dir()
 
 
     0.upto(n) do |i|
-
+      albums_titles_band = []
       `nordvpn connect`
 
-      paus()
+      self.paus()
 
-      urlband_band_name_str = create_directory_change_url_get_page_band(url_band, i)
+      urlband_band_name_str = self.create_directory_change_url_get_page_band(url_band, i)
+
       band = urlband_band_name_str[1]
+      current_album = ""
+      if band == nil
+        Dir.chdir("../")
+        break
+      end
       #driver = browser()
       #wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
       #  page = Nokogiri::HTML(URI.open((urlband_band_name_str[2])))
 
       page = Nokogiri::HTML(URI.open(("../#{urlband_band_name_str[1]}.html")))
+      page = page.css("div#listAlbum")[0]
+      #https://www.engineyard.com/blog/getting-started-with-nokogiri/
+      unless page == nil
+        page.children.each { |node|
+          unless node.text == "\r\n"
+            if node['class']  == "album"
+              # http://ruby.bastardsbook.com/chapters/html-parsing/
+              current_album = node.css("b").text.gsub(/\s+/, " ").strip.gsub(" ", "_").gsub('"', '')
+              #dirname = Dir.getwd.gsub("/", " ").split.last
+              unless Dir.exists?(current_album)
+                Dir.mkdir(current_album)
+                puts Dir.getwd
+              end
+            end
 
-      #page = driver.get(url_band[c])
-
-      album = "a"
-      links = []
-      title = " "
-
-      counter_for_albums = 1
-      counter_for_titles = 1
-      c = 1
-
-      while true
-
-        album_and_page = load_album_go_dir(counter_for_albums, page)
-
-        #  if c == 1
-        #  plus_counters_alb_titles
-        #  end
-        counter_for_titles = counter_for_titles + 1
-        counter_for_albums = counter_for_albums + 1
-
-        title = "a"
-
-        while title != ""
-
-          title = find_title(album_and_page[1], title, counter_for_titles)
-          albums_titles_band = append_array(album, title, band, albums_titles_band)
-          counter_for_titles = counter_for_titles + 1
-          counter_for_albums = counter_for_albums + 1
-        end
+            if node['class']  == "listalbum-item"
+              title = node.css("a").text.gsub(/\s+/, " ").strip.gsub(" ", "_").gsub('"', '')
+              to_append = self.append_array(current_album, title, band, albums_titles_band)
+              albums_titles_band << to_append
 
 
-        Dir.chdir("../")
+              unless Dir.exist?("#{current_album}/#{title}")
+                FileUtils.mkdir_p("#{current_album}/#{title}")
+                puts Dir.getwd
 
-        counter_for_titles = counter_for_titles - 1
-        counter_for_albums = counter_for_albums - 1
+              end
+            end
+          end
 
-        c = modify_counter_go_band_dir(title, album_and_page[0], album_and_page[1], c )
+        }
 
-        if c.class == Array
-          break
-        end
-
+        print("#{band}'s albums over")
       end
 
-      print("albums over")
-      puts albums_titles_band
 
       unless Dir.exists?("#{band}.csv")
-        creat_csv_file(band, albums_titles_band)
-        albums_titles_band = []
+        self.creat_csv_file(band, albums_titles_band)
       end
+
+      Dir.chdir("../")
 
     end
 
+    
   end
 
   def create_artists_enter_dir()
@@ -109,10 +108,10 @@ class FileOrganiser
 
     url_band_str = url_band[i]
 
-    download_total_discography_page(band, url_band_str )
-
-    Dir.chdir("#{band}")
-
+    unless band == nil
+      download_total_discography_page(band, url_band_str )
+      Dir.chdir("#{band}")
+    end
     return [url_band, band, url_band_str]
   end
 
@@ -148,15 +147,17 @@ class FileOrganiser
   end
 
   def download_total_discography_page(band, uri_str)
+    puts Dir.getwd
+
     unless Dir.exists?("#{band}")
-
       Dir.mkdir("#{band}")
-      #https://linuxtut.com/i-want-to-download-a-file-on-the-internet-using-ruby-and-save-it-locally-(with-caution)-74737/
-      URI.open(uri_str) do |res|
-        IO.copy_stream(res, "#{band}.html")
-      end
-
     end
+
+    #https://linuxtut.com/i-want-to-download-a-file-on-the-internet-using-ruby-and-save-it-locally-(with-caution)-74737/
+    URI.open(uri_str) do |res|
+      IO.copy_stream(res, "#{band}.html")
+    end
+
 
   end
 
@@ -192,6 +193,7 @@ class FileOrganiser
     album = ""
     page.xpath(path_album).each { |node|
       album = node.text
+
     }
 
     return album
@@ -205,10 +207,10 @@ class FileOrganiser
         puts Dir.getwd
 
       end
+
       Dir.chdir("#{album}")
 
     end
-
   end
 
   def find_title(page, title, counter_for_titles)
@@ -219,34 +221,40 @@ class FileOrganiser
     page.xpath(path_title).each { |node|
       title = node.text
     }
-
-    return title.gsub("/", "-").gsub(/\s+/, " ").strip.gsub(" ", "_")
+    title = title.gsub("/", "-").gsub(/\s+/, " ").strip.gsub(" ", "_")
+    return title
 
   end
 
 
   def modify_create_title_dir(title)
     unless title == ""
+
       title = title.gsub("/", "-").gsub(/\s+/, " ").strip.gsub(" ", "_")
+
       unless Dir.exist?("#{title}")
+
         Dir.mkdir("#{title}")
         puts Dir.getwd
+
       end
+
       return title
     end
+
     return title
   end
 
 
   def append_array(album, title, band, albums_titles_band)
+
     unless title == ""
-      return albums_titles_band << [album, title, band]
+      return [album, title, band]
     end
-    return albums_titles_band
   end
 
 
-  def modify_counter_go_band_dir(title, album, page, c )
+  def modify_counter_go_band_dir(band, title, album, page, c )
     if title == "" && album == ""
       div = ""
       page.xpath("//*[@id='azlyrics_incontent_#{c}']").each { |e|
@@ -265,10 +273,12 @@ class FileOrganiser
   def creat_csv_file(band, albums_titles_band)
     CSV.open("#{band}.csv", "w") do |csv|
       albums_titles_band.each { |line|
-        album = "#{line[0]}"
-        title = "#{line[1]}"
-        band = "#{line[2]}"
-        csv << [album, title, band]
+        unless line == nil || line[0] == nil || line[1] == nil || line[2] == nil
+          album = "#{line[0]}"
+          title = "#{line[1]}"
+          band = "#{line[2]}"
+          csv << [album, title, band]
+        end
       }
     end
 
