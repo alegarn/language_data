@@ -38,7 +38,7 @@ class FreqDictionary < ApplicationRecord
       WHERE ts.id = tsfd.track_score_id AND #{word_obj.id} = tsfd.freq_dictionary_id AND ts.track_id = t.id AND t.song_type LIKE '%#{genre}'\
       ")
       needed_track_scores.each { |tso|
-        if tso.track_word_occurence > 5
+        if tso.track_word_occurence >= 2 
           track_id = tso.track_id
             track_title = tso.title.gsub('_', ' ')
             unless tracks_words_occurences[:"#{track_title}"].nil?
