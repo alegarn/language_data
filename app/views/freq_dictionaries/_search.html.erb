@@ -6,7 +6,7 @@
   <div class='col'>
     <div class='card h-100' style='width: 12rem;'>
       <div class='card-body'>
-        <h5 class='card-title text-warning'><span class='text-decoration-underline fw-bold'>Title:</span> <%= track[0] %></h5>
+        <h5 class='card-title text-warning'><span class='text-decoration-underline fw-bold'>Title:</span> <%= link_to "#{track[0]}", "https://www.youtube.com/results?search_query=#{track[0].to_s.gsub(" ", "+")}+#{track[2][:band].to_s.gsub(" ", "+")}", class:"text-reset" %></h5>
         <h6 class='card-subtitle mb-2 text-muted'>Score: <%= track[1] %></h6>
         <p class='card-text'> <span class='text-decoration-underline fw-bold'>Album:</span> <%= track[2][:album] %></p>
           <p class='card-text'><span class='text-decoration-underline fw-bold'>Artist:</span> <%= track[2][:band] %></p>
