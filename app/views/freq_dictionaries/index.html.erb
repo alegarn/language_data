@@ -28,10 +28,10 @@
     </div>
   </div>
 
-  <% if @words.nil? %>
+  <% if @words.nil? || @words = "" %>
 
   <div class="align-center">
-    <p class="">  "Hmmm?"  </p>
+    <p class="">  "Hmmm? Il faut choisir un ou plusieurs mots :)"  </p>
   </div>
 
   <% end %>
