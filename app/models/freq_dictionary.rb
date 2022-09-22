@@ -40,8 +40,8 @@ class FreqDictionary < ApplicationRecord
       needed_track_scores.each { |tso|
         if tso.track_word_occurence >= 2 
           track_id = tso.track_id
-            track_title = tso.title.gsub('_', ' ')
-            unless tracks_words_occurences[:"#{track_title}"].nil?
+          track_title = tso.title.gsub('_', ' ')
+          unless tracks_words_occurences[:"#{track_title}"].nil?
             multi_words_music = tracks_words_occurences[:"#{track_title}"] << [key, tso.track_word_occurence, tso]
             tracks_words_occurences.store(:"#{track_title}", multi_words_music)
           end
