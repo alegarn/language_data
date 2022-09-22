@@ -36,7 +36,7 @@
 
   <% end %>
 
-  <% unless @words.nil? %>
+  <% unless @words.nil?  || @words.empty? == false %>
 
   <%= render "search", search: @computed_tracks_scores %>
 
