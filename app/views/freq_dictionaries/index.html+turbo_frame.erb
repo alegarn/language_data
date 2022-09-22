@@ -9,14 +9,15 @@
         <h5 class='card-title text-warning'>Title: <%= track[0] %></h5>
         <h6 class='card-subtitle mb-2 text-muted'>Score: <%= track[1] %></h6>
         <p class='card-text'> <span class='text-decoration-underline fw-bold'>Album:</span> <%= track[2][:album] %></p>
-          <p class='card-text'><span class='text-decoration-underline fw-bold'>Artist:</span> <%= track[2][:band] %></p>
-          <p class='card-text'>Is a <span class='text-decoration-underline fw-bold'><%= track[2][:song_type] %></span> song.</p>
+        <p class='card-text'><span class='text-decoration-underline fw-bold'>Artist:</span> <%= track[2][:band] %></p>
+        <p class='card-text'>Is a <span class='text-decoration-underline fw-bold'><%= track[2][:song_type] %></span> song.</p>
+        <p class='card-text'> <%= link_to "Plus", track_path(track[2][:track_id]), target: :_blank %> </p>
 
       </div>
     </div>
   </div>
 
-    <% } %>
+  <% } %>
 
   </div>
 </div>

@@ -3,6 +3,6 @@ Rails.application.routes.draw do
   root 'home_pages#home'
   get 'home_pages/questions'
   resources :freq_dictionaries, only: [:index]
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :tracks, only: [:show]
+
 end
