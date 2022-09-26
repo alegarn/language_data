@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <% if @words.nil? %>
+  <% if @words.nil? || @words.empty? %>
 
   <div class="align-center">
     <p class="">  "Hmmm? Il faut choisir un ou plusieurs mots :)"  </p>
@@ -36,7 +36,7 @@
 
   <% end %>
 
-  <% unless @words.nil?  || @words.empty? == false %>
+  <% unless @words.nil?  || @computed_tracks_scores.nil? %>
 
   <%= render "search", search: @computed_tracks_scores %>
 
