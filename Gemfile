@@ -79,3 +79,5 @@ gem "pry"
 gem "dotenv"
 gem 'activerecord'
 gem 'bootstrap', '~> 5.2.0'
+gem "http"
+gem "json"
