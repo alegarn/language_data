@@ -1,4 +1,11 @@
 <h1>Tracks#show</h1>
 <p> a track </p>
 
-<%= @track.id %> 
+<% unless @track_infos == nil || @track_infos == ""%>
+    <p>  <audio src= <%= "#{@track_infos}" %> controls> </audio>  </p>
+    <p> <%= @track_infos %> </p>
+<% end %>
+
+<% if @track_infos == nil %>
+  <p> Track not found</p>
+<% end %>
