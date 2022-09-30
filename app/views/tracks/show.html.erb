@@ -1,11 +1,27 @@
-<h1>Tracks#show</h1>
-<p> a track </p>
+<div class="row align-items-md-stretch px-3 pb-3">
 
-<% unless @track_infos == nil || @track_infos == ""%>
-    <p>  <audio src= <%= "#{@track_infos}" %> controls> </audio>  </p>
-    <p> <%= @track_infos %> </p>
-<% end %>
+  <div class="col-md-6">
+    <div class="h-100 p-5 text-bg-dark rounded-3">
+      <h2>Voici les infos:</h2>
+      <p> Artiste: <%= @track.band %> </p>
+      <p> Titre: <%= @track.title %> </p>
+      <p> Album: <%= @track.album %> </p>
 
-<% if @track_infos == nil %>
-  <p> Track not found</p>
-<% end %>
+      <button class="btn btn-outline-warning" type="button"><%= link_to "retour", freq_dictionaries_path %></button>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="h-100 p-5 bg-light border rounded-3">
+      <h2>Add borders</h2>
+      <% unless @track_infos == nil || @track_infos == ""%>
+          <p>  <audio src= <%= "#{@track_infos}" %> controls> </audio>  </p>
+          <p> <%= @track_infos %> </p>
+      <% end %>
+
+      <% if @track_infos == nil %>
+        <p> Track not found</p>
+      <% end %>
+    </div>
+  </div>
+</div>
