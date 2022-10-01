@@ -2,11 +2,13 @@
 
   <div class="col-md-6">
     <div class="h-100 p-5 text-bg-dark rounded-3">
+      <h5 class='card-title text-warning'>Title: <%= link_to(@track.title, "https://www.youtube.com/results?search_query=#{@track.title.to_s.gsub(' ', '+')}+#{@track.band.to_s.gsub(' ', '+')}+lyrics", class:"text-reset", target: :_blank) %></h5>
+
       <h2>Voici les infos:</h2>
       <p> Artiste: <%= @track.band %> </p>
       <p> Titre: <%= @track.title %> </p>
       <p> Album: <%= @track.album %> </p>
-
+      
       <button class="btn btn-outline-warning" type="button"><%= link_to "retour", freq_dictionaries_path %></button>
     </div>
   </div>
