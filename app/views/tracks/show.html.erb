@@ -2,3 +2,6 @@
 <p> a track </p>
 
 <%= @track.id %> 
+<p> 
+<%= link_to "Voir les paroles", "https://genius.com/search?q=#{@track_modified[:band]}%20#{@track_modified[:album]}%20#{@track_modified[:title]}", target: :_blank%>
+</p>
