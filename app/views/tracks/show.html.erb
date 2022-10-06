@@ -1,7 +1,26 @@
-<h1>Tracks#show</h1>
-<p> a track </p>
+<div class="row align-items-md-stretch px-3 pb-3">
 
-<%= @track.id %> 
-<p> 
-<%= link_to "Voir les paroles", "https://genius.com/search?q=#{@track_modified[:band]}%20#{@track_modified[:album]}%20#{@track_modified[:title]}", target: :_blank%>
-</p>
+  <div class="col-md-6">
+    <div class="h-100 p-5 text-bg-dark rounded-3">
+      <h2>Voici les infos:</h2>
+      <p> Artiste: <%= @track.band %> </p>
+      <p> Titre: <%= @track.title %> </p>
+      <p> Album: <%= @track.album %> </p>
+      <p> Nombre d'occurences: </p>
+
+      <button class="btn btn-outline-warning" type="button"><%= link_to "retour", freq_dictionaries_path %></button>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="h-100 p-5 bg-light border rounded-3">
+      <h2>Add borders</h2>
+
+      <p> <%= link_to "Voir les paroles", "https://genius.com/search?q=#{@track_modified[:band]}%20#{@track_modified[:album]}%20#{@track_modified[:title]}", target: :_blank%> </p>
+      
+
+
+      <button class="btn btn-outline-secondary" type="button">Example button</button>
+    </div>
+  </div>
+</div>
