@@ -15,29 +15,15 @@ class FreqDictionary < ApplicationRecord
     unless search.nil?
       complete_list = search.downcase.split(' ')
       words = Hash.new
-      query = ""
       complete_list.map { |word|
-        if word == complete_list.first
-          query = "SELECT fd.id, fd.word \
+        from_list_word = self.find_by_sql("\
+          SELECT fd.id, fd.word \
           FROM freq_dictionaries AS fd \
-          WHERE fd.word LIKE '#{word}'"
-        end
-
-        unless word == complete_list.first
-          query = query + " OR fd.word LIKE '#{word}'"
-        end
-      }
-      
-      from_list_word = self.find_by_sql(query)
-
-      unless from_list_word.nil?
-        i = 0
-        for word in from_list_word do
-          words.store(:"#{from_list_word[i].word}", from_list_word[i])
-          i = i + 1
-        end
-      end
-
+          WHERE fd.word LIKE '%#{word}'")[0]
+          unless from_list_word.nil?
+            words.store(:"#{from_list_word.word}", from_list_word)
+          end
+        }
       return words
     end
   end
@@ -49,8 +35,8 @@ class FreqDictionary < ApplicationRecord
       needed_track_scores = Track.find_by_sql("\
       SELECT ts.track_id, ts.track_word_occurence, t.title, t.album, t.band, t.song_type \
       FROM track_score_freq_dictionaries AS tsfd, track_scores AS ts, tracks AS t \
-      WHERE ts.id = tsfd.track_score_id AND #{word_obj.id} = tsfd.freq_dictionary_id AND ts.track_id = t.id AND t.song_type LIKE '%#{genre}'\
-      ")
+      WHERE ts.id = tsfd.track_score_id AND ts.track_id = t.id AND t.song_type LIKE '%#{genre}' \
+      AND #{word_obj.id} = tsfd.freq_dictionary_id ")
       needed_track_scores.each { |tso|
         if tso.track_word_occurence >= 2 
           track_id = tso.track_id
