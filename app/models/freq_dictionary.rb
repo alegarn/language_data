@@ -44,13 +44,18 @@ class FreqDictionary < ApplicationRecord
 
   def self.search_track_word_occurence(words, genre)
     tracks_words_occurences = {}
+    query = ""
     genre = genre.gsub("'", "%")
+
+
+########################
+
     words.each { |key, word_obj|
       needed_track_scores = Track.find_by_sql("\
       SELECT ts.track_id, ts.track_word_occurence, t.title, t.album, t.band, t.song_type \
       FROM track_score_freq_dictionaries AS tsfd, track_scores AS ts, tracks AS t \
-      WHERE ts.id = tsfd.track_score_id AND #{word_obj.id} = tsfd.freq_dictionary_id AND ts.track_id = t.id AND t.song_type LIKE '%#{genre}'\
-      ")
+      WHERE ts.id = tsfd.track_score_id AND ts.track_id = t.id AND t.song_type LIKE '%#{genre}' \
+      AND #{word_obj.id} = tsfd.freq_dictionary_id ")
       needed_track_scores.each { |tso|
         if tso.track_word_occurence >= 2 
           track_id = tso.track_id
@@ -83,6 +88,12 @@ class FreqDictionary < ApplicationRecord
       return computed_tracks_scores[0,10]
     end
     return computed_tracks_scores
+  end
+
+
+  def sql_quer_build(string, part)
+    
+    return the_fin_qu
   end
 
 end
