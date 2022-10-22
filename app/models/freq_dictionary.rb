@@ -15,22 +15,41 @@ class FreqDictionary < ApplicationRecord
     unless search.nil?
       complete_list = search.downcase.split(' ')
       words = Hash.new
+      query = ""
       complete_list.map { |word|
-        from_list_word = self.find_by_sql("\
-          SELECT fd.id, fd.word \
+        if word == complete_list.first
+          query = "SELECT fd.id, fd.word \
           FROM freq_dictionaries AS fd \
-          WHERE fd.word LIKE '%#{word}'")[0]
-          unless from_list_word.nil?
-            words.store(:"#{from_list_word.word}", from_list_word)
-          end
-        }
+          WHERE fd.word LIKE '#{word}'"
+        end
+
+        unless word == complete_list.first
+          query = query + " OR fd.word LIKE '#{word}'"
+        end
+      }
+      
+      from_list_word = self.find_by_sql(query)
+
+      unless from_list_word.nil?
+        i = 0
+        for word in from_list_word do
+          words.store(:"#{from_list_word[i].word}", from_list_word[i])
+          i = i + 1
+        end
+      end
+
       return words
     end
   end
 
   def self.search_track_word_occurence(words, genre)
     tracks_words_occurences = {}
+    query = ""
     genre = genre.gsub("'", "%")
+
+
+########################
+
     words.each { |key, word_obj|
       needed_track_scores = Track.find_by_sql("\
       SELECT ts.track_id, ts.track_word_occurence, t.title, t.album, t.band, t.song_type \
@@ -69,6 +88,12 @@ class FreqDictionary < ApplicationRecord
       return computed_tracks_scores[0,10]
     end
     return computed_tracks_scores
+  end
+
+
+  def sql_quer_build(string, part)
+    
+    return the_fin_qu
   end
 
 end
