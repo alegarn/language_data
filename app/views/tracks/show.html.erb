@@ -20,7 +20,7 @@
       
 
 
-      <button class="btn btn-outline-secondary" type="button">Example button</button>
+      <button class="btn btn-outline-secondary" type="button"><%= link_to "Voir les paroles", "https://www.youtube.com/results?search_query=#{@track.band.gsub('_', ' ')}+#{@track.album}+#{@track.title}}+lyrics", target: :_blank%> </button>
     </div>
   </div>
 </div>
